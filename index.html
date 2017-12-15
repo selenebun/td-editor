@@ -17,8 +17,27 @@
     <main>
       <aside id="tiles">
         <h2>Tiles</h2>
-        <div id="grid-tiles"></div>
-        <div id="path-tiles"></div>
+        <div>
+          <p><button class="empty" onclick="selected='empty'">Empty Tile (1)</button></p>
+          <p><button class="wall" onclick="selected='wall'">Wall Tile (2)</button></p>
+          <p><button class="path" onclick="selected='path'">Path Tile (3)</button></p>
+          <p><button class="tower" onclick="selected='tower'">Tower Tile (4)</button></p>
+        </div>
+
+        <h2>Special</h2>
+        <div>
+          <p><button class="spawn" onclick="selected='spawn'">Spawnpoint (5)</button></p>
+          <p><button class="exit" onclick="selected='exit'">Exit Point (6)</button></p>
+        </div>
+
+        <h2>Paths</h2>
+        <div>
+          <p><button class="none" onclick="selected='none'">No Path (0)</button></p>
+          <p><button class="left" onclick="selected='left'">Left Path (left)</button></p>
+          <p><button class="up" onclick="selected='up'">Up Path (up)</button></p>
+          <p><button class="right" onclick="selected='right'">Right Path (right)</button></p>
+          <p><button class="down" onclick="selected='down'">Down Path (down)</button></p>
+        </div>
       </aside>
 
       <div id="sketch-holder"></div>
