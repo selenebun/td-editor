@@ -11,7 +11,7 @@ var spawnpoints = [];
 
 var waves;
 
-var selected;
+var selected = 'empty';
 
 
 // Misc functions
@@ -37,6 +37,65 @@ function drawTile(col, row) {
         [25, 181, 254]
     ][t]);
     rect(col * ts, row * ts, ts, ts);
+}
+
+// Return walkability map
+function getWalkMap() {
+    var walkMap = [];
+    for (var x = 0; x < cols; x++) {
+        walkMap[x] = [];
+        for (var y = 0; y < rows; y++) {
+            walkMap[x][y] = walkable(x, y);
+        }
+    }
+    return walkMap;
+}
+
+// Recalculate pathfinding maps
+// Algorithm from https://www.redblobgames.com/pathfinding/tower-defense/
+function recalculate() {
+    if (!exit) return;
+    walkMap = getWalkMap();
+    var frontier = [];
+    var target = vts(exit);
+    frontier.push(target);
+    var cameFrom = {};
+    cameFrom[target] = null;
+
+    // Fill cameFrom and distance for every tile
+    while (frontier.length !== 0) {
+        var current = frontier.shift();
+        var t = stv(current);
+        var adj = neighbors(walkMap, t.x, t.y, true);
+
+        for (var i = 0; i < adj.length; i++) {
+            var next = adj[i];
+            if (next in cameFrom) continue;
+            frontier.push(next);
+            cameFrom[next] = current;
+        }
+    }
+
+    // Generate usable maps
+    paths = buildArray(cols, rows, null);
+    var keys = Object.keys(cameFrom);
+    for (var i = 0; i < keys.length; i++) {
+        var key = keys[i];
+        var current = stv(key);
+
+        // Generate path direction for every tile
+        var val = cameFrom[key];
+        if (val !== null) {
+            // Subtract vectors to determine direction
+            var next = stv(val);
+            var dir = next.sub(current);
+            // Fill tile with direction
+            if (dir.x < 0) paths[current.x][current.y] = 'left';
+            if (dir.y < 0) paths[current.x][current.y] = 'up';
+            if (dir.x > 0) paths[current.x][current.y] = 'right';
+            if (dir.y > 0) paths[current.x][current.y] = 'down';
+        }
+    }
 }
 
 // Clear grid
@@ -104,6 +163,12 @@ function userDraw() {
     }
 }
 
+// Return whether tile is walkable
+function walkable(col, row) {
+    // Check if empty or path tile
+    return grid[col][row] === 0 || grid[col][row] === 2;
+}
+
 
 // Main p5 functions
 
@@ -162,7 +227,6 @@ function draw() {
 
 // User input
 
-// TODO press P to pathfind
 function keyPressed() {
     switch (keyCode) {
         case 37:
@@ -208,6 +272,10 @@ function keyPressed() {
         case 54:
             // 6
             selected = 'exit';
+            break;
+        case 80:
+            // P
+            recalculate();
             break;
         case 82:
             // R
