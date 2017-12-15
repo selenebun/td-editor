@@ -32,6 +32,9 @@ function drawTile(col, row) {
 function resetMap() {
     grid = buildArray(cols, rows, 0);
     paths = buildArray(cols, rows, null);
+
+    exit = null;
+    spawnpoints = [];
 }
 
 // Resizes cols, rows, and canvas based on tile size
@@ -117,7 +120,7 @@ function draw() {
     }
 
     // Draw exit
-    if (typeof exit !== 'undefined') {
+    if (exit) {
         stroke(0);
         fill(207, 0, 15);
         rect(exit.x * ts, exit.y * ts, ts, ts);
