@@ -126,7 +126,7 @@ function recalculate() {
     }
 
     // Generate usable maps
-    paths = buildArray(cols, rows, null);
+    var newPaths = buildArray(cols, rows, null);
     var keys = Object.keys(cameFrom);
     for (var i = 0; i < keys.length; i++) {
         var key = keys[i];
@@ -139,12 +139,21 @@ function recalculate() {
             var next = stv(val);
             var dir = next.sub(current);
             // Fill tile with direction
-            if (dir.x < 0) paths[current.x][current.y] = 'left';
-            if (dir.y < 0) paths[current.x][current.y] = 'up';
-            if (dir.x > 0) paths[current.x][current.y] = 'right';
-            if (dir.y > 0) paths[current.x][current.y] = 'down';
+            if (dir.x < 0) newPaths[current.x][current.y] = 'left';
+            if (dir.y < 0) newPaths[current.x][current.y] = 'up';
+            if (dir.x > 0) newPaths[current.x][current.y] = 'right';
+            if (dir.y > 0) newPaths[current.x][current.y] = 'down';
         }
     }
+
+    // Preserve old paths on path tiles
+    for (var x = 0; x < cols; x++) {
+        for (var y = 0; y < rows; y++) {
+            if (grid[x][y] === 2) newPaths[x][y] = paths[x][y];
+        }
+    }
+
+    paths = newPaths;
 }
 
 // Clear grid
@@ -341,6 +350,10 @@ function keyPressed() {
         case 80:
             // P
             recalculate();
+            break;
+        case 81:
+            // Q
+            paths = buildArray(cols, rows, null);
             break;
         case 82:
             // R

@@ -54,15 +54,15 @@ aside {
     padding: 14px;
 }
 
-#tiles div p:first-of-type {
+aside div p:first-of-type {
     margin-bottom: 0;
 }
 
-#tiles div p + p:not(:last-of-type) {
+aside div p + p:not(:last-of-type) {
     margin: 0;
 }
 
-#tiles div p:last-of-type {
+aside div p:last-of-type {
     margin-top: 0;
 }
 
@@ -156,10 +156,6 @@ footer #copyright {
 
 /* Path types */
 
-.none {
-    background-color: rgb(150, 40, 27);
-}
-
 .dir {
     background-color: rgb(248, 148, 6);
 }
@@ -169,4 +165,12 @@ footer #copyright {
 
 .fill {
     background-color: rgb(54, 215, 183);
+}
+
+.io {
+    background-color: rgb(224, 130, 131);
+}
+
+.zoom {
+    background-color: rgb(82, 179, 217);
 }
