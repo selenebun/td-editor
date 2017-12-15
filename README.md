@@ -8,7 +8,9 @@ Map editor for tower defense game using p5.js that can be played
 * 0-6 and arrow keys to select tiles to place
 * M to import and load map string (will reset map!)
 * P to automatically pathfind
-* R to reset game
+* R to reset map
 * S to clear spawnpoints
+* T to fill map with tower-only tiles
+* W to fill map with walls
 * X to export map string (copies to clipboard)
 * Z to return to default zoom level (will reset map!)

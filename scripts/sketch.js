@@ -96,7 +96,7 @@ function importMap(str) {
 
         resizeFit();
     } catch (err) {
-        resetMap();
+        resetMap(0);
     }
 }
 
@@ -148,8 +148,8 @@ function recalculate() {
 }
 
 // Clear grid
-function resetMap() {
-    grid = buildArray(cols, rows, 0);
+function resetMap(tile) {
+    grid = buildArray(cols, rows, tile);
     paths = buildArray(cols, rows, null);
 
     exit = null;
@@ -238,7 +238,7 @@ function setup() {
     var canvas = createCanvas(div.offsetWidth, div.offsetHeight);
     canvas.parent('sketch-holder');
     resizeMax();
-    resetMap();
+    resetMap(0);
 }
 
 function draw() {
@@ -344,11 +344,19 @@ function keyPressed() {
             break;
         case 82:
             // R
-            resetMap();
+            resetMap(0);
             break;
         case 83:
             // S
             spawnpoints = [];
+            break;
+        case 84:
+            // T
+            resetMap(3);
+            break;
+        case 87:
+            // W
+            resetMap(1);
             break;
         case 88:
             // X
@@ -358,14 +366,14 @@ function keyPressed() {
             // Z
             ts = zoomDefault;
             resizeMax();
-            resetMap();
+            resetMap(0);
             break;
         case 219:
             // Left bracket
             if (ts > 16) {
                 ts -= tileZoom;
                 resizeMax();
-                resetMap();
+                resetMap(0);
             }
             break;
         case 221:
@@ -373,7 +381,7 @@ function keyPressed() {
             if (ts < 40) {
                 ts += tileZoom;
                 resizeMax();
-                resetMap();
+                resetMap(0);
             }
             break;
     }

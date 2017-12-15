@@ -33,10 +33,10 @@
         <h2>Paths</h2>
         <div>
           <p><button class="none" onclick="selected='none'">No Path (0)</button></p>
-          <p><button class="left" onclick="selected='left'">Left Path (left)</button></p>
-          <p><button class="up" onclick="selected='up'">Up Path (up)</button></p>
-          <p><button class="right" onclick="selected='right'">Right Path (right)</button></p>
-          <p><button class="down" onclick="selected='down'">Down Path (down)</button></p>
+          <p><button class="dir" onclick="selected='left'">Left Path (left)</button></p>
+          <p><button class="dir" onclick="selected='up'">Up Path (up)</button></p>
+          <p><button class="dir" onclick="selected='right'">Right Path (right)</button></p>
+          <p><button class="dir" onclick="selected='down'">Down Path (down)</button></p>
         </div>
       </aside>
 
@@ -45,8 +45,10 @@
       <div class="aside-holder">
         <aside id="status"></aside>
 
-        <aside id="info">
-          <div id="info-div"></div>
+        <aside id="utils">
+          <h2>Utilities</h2>
+          <p><button class="fill" onclick="resetMap(1)">Fill Wall (W)</button></p>
+          <p><button class="fill" onclick="resetMap(3)">Fill Tower (T)</button></p>
         </aside>
       </div>
     </main>
