@@ -2,6 +2,7 @@ var cols;
 var rows;
 var tileZoom = 2;
 var ts = 24;            // tile size
+var zoomDefault = ts;
 
 var grid;               // tile type (0 = empty, 1 = wall, 2 = path, 3 = tower)
 var paths;              // direction to travel
@@ -349,6 +350,12 @@ function keyPressed() {
         case 88:
             // X
             copyToClipboard(exportMap());
+            break;
+        case 90:
+            // Z
+            ts = zoomDefault;
+            resizeMax();
+            resetMap();
             break;
         case 219:
             // Left bracket

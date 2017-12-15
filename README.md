@@ -11,3 +11,4 @@ Map editor for tower defense game using p5.js that can be played
 * R to reset game
 * S to clear spawnpoints
 * X to export map string (copies to clipboard)
+* Z to return to default zoom level (will reset map!)
