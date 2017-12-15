@@ -20,6 +20,38 @@ function center(col, row) {
     return createVector(col*ts + ts/2, row*ts + ts/2);
 }
 
+// Copy text to clipboard
+function copyToClipboard(str) {
+    var textArea = document.createElement('textarea');
+
+    // Ensure element is as invisible as possible
+    textArea.style.position = 'fixed';
+    textArea.style.top = 0;
+    textArea.style.left = 0;
+    textArea.style.width = '2em';
+    textArea.style.height = '2em';
+    textArea.style.padding = 0;
+    textArea.style.border = 'none';
+    textArea.style.outline = 'none';
+    textArea.style.boxShadow = 'none';
+    textArea.style.background = 'transparent';
+
+    textArea.value = str;
+    document.body.appendChild(textArea);
+    textArea.select();
+
+    // Copy text
+    try {
+        var successful = document.execCommand('copy');
+        var msg = successful ? 'successful' : 'unsuccessful';
+        console.log('Copying text was ' + msg);
+    } catch (err) {
+        console.log('Unable to copy');
+    }
+
+    document.body.removeChild(textArea);
+}
+
 // Convert grid coordinates to string
 function cts(col, row) {
     return col + ',' + row;

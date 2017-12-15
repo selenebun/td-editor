@@ -75,25 +75,28 @@ function getWalkMap() {
 
 // Load a map from a map string
 function importMap(str) {
-    var m = JSON.parse(str);
-    
-    // Grids
-    grid = m.grid;
-    paths = m.paths;
-    // Important tiles
-    exit = createVector(m.exit[0], m.exit[1]);
-    spawnpoints = [];
-    for (var i = 0; i < m.spawnpoints.length; i++) {
-        var s = m.spawnpoints[i];
-        spawnpoints.push(createVector(s[0], s[1]));
-    }
-    // Misc
-    cols = m.cols;
-    rows = m.rows;
-    waves = m.waves;
+    try {
+        var m = JSON.parse(str);
 
-    // Resize canvas
-    resizeFit();
+        // Grids
+        grid = m.grid;
+        paths = m.paths;
+        // Important tiles
+        exit = createVector(m.exit[0], m.exit[1]);
+        spawnpoints = [];
+        for (var i = 0; i < m.spawnpoints.length; i++) {
+            var s = m.spawnpoints[i];
+            spawnpoints.push(createVector(s[0], s[1]));
+        }
+        // Misc
+        cols = m.cols;
+        rows = m.rows;
+        waves = m.waves;
+
+        resizeFit();
+    } catch (err) {
+        resetMap();
+    }
 }
 
 // Recalculate pathfinding maps
@@ -327,6 +330,10 @@ function keyPressed() {
             // 6
             selected = 'exit';
             break;
+        case 77:
+            // M
+            importMap(prompt('Input map string:'));
+            break;
         case 80:
             // P
             recalculate();
@@ -338,6 +345,10 @@ function keyPressed() {
         case 83:
             // S
             spawnpoints = [];
+            break;
+        case 88:
+            // X
+            copyToClipboard(exportMap());
             break;
         case 219:
             // Left bracket
