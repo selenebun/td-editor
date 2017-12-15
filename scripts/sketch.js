@@ -187,6 +187,8 @@ function userDraw() {
             break;
         case 'exit':
             exit = createVector(p.x, p.y);
+            grid[p.x][p.y] = 0;
+            paths[p.x][p.y] = null;
             break;
         case 'left':
             if (g === 0 || g === 2) paths[p.x][p.y] = 'left';
@@ -206,6 +208,7 @@ function userDraw() {
                 if (s.equals(spawnpoints[i])) return;
             }
             spawnpoints.push(s);
+            if (!walkable(p.x, p.y)) grid[p.x][p.y] = 0;
             break;
         case 'tower':
             grid[p.x][p.y] = 3;
