@@ -16,6 +16,17 @@ var selected;
 
 // Misc functions
 
+// Draw an arrow
+function arrow() {
+    stroke(0);
+    var length = 0.7 * ts;
+    var back = 0.1 * ts;
+    var width = 0.5 * ts;
+    line(-length / 2, 0, length / 2, 0);
+    line(-length / 2, 0, -back, -width / 2);
+    line(-length / 2, 0, -back, width / 2);
+}
+
 function drawTile(col, row) {
     stroke(0, 63);
     var t = grid[col][row];
@@ -63,6 +74,9 @@ function userDraw() {
         case 'left':
             if (g === 0 || g === 2) paths[p.x][p.y] = 'left';
             break;
+        case 'none':
+            paths[p.x][p.y] = null;
+            break;
         case 'path':
             grid[p.x][p.y] = 2;
             break;
@@ -102,8 +116,6 @@ function setup() {
 }
 
 function draw() {
-    background(0);
-
     // Draw basic tiles
     for (var x = 0; x < cols; x++) {
         for (var y = 0; y < rows; y++) {
@@ -124,6 +136,26 @@ function draw() {
         stroke(0);
         fill(207, 0, 15);
         rect(exit.x * ts, exit.y * ts, ts, ts);
+    }
+
+    // Draw paths
+    for (var x = 0; x < cols; x++) {
+        for (var y = 0; y < rows; y++) {
+            var d = paths[x][y];
+            if (d) {
+                push();
+                var c = center(x, y);
+                translate(c.x, c.y);
+                rotate({
+                    down: PI * 3 / 2,
+                    left: 0,
+                    right: PI,
+                    up: PI / 2
+                }[d]);
+                arrow();
+                pop();
+            }
+        }
     }
 }
 

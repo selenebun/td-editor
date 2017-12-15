@@ -15,6 +15,11 @@ function buildArray(cols, rows, val) {
     return arr;
 }
 
+// Return position at center of tile
+function center(col, row) {
+    return createVector(col*ts + ts/2, row*ts + ts/2);
+}
+
 // Return grid coordinate
 function gridPos(x, y) {
     return createVector(floor(x / ts), floor(y / ts));
