@@ -39,6 +39,28 @@ function drawTile(col, row) {
     rect(col * ts, row * ts, ts, ts);
 }
 
+// Return map string
+function exportMap() {
+    // Convert spawnpoints into a JSON-friendly format
+    var spawns = [];
+    for (var i = 0; i < spawnpoints.length; i++) {
+        var s = spawnpoints[i];
+        spawns.push([s.x, s.y]);
+    }
+    return JSON.stringify({
+        // Grids
+        grid: grid,
+        paths: paths,
+        // Important tiles
+        exit: [exit.x, exit.y],
+        spawnpoints: spawns,
+        // Misc
+        cols: cols,
+        rows: rows,
+        waves: waves
+    });
+}
+
 // Return walkability map
 function getWalkMap() {
     var walkMap = [];
@@ -49,6 +71,29 @@ function getWalkMap() {
         }
     }
     return walkMap;
+}
+
+// Load a map from a map string
+function importMap(str) {
+    var m = JSON.parse(str);
+    
+    // Grids
+    grid = m.grid;
+    paths = m.paths;
+    // Important tiles
+    exit = createVector(m.exit[0], m.exit[1]);
+    spawnpoints = [];
+    for (var i = 0; i < m.spawnpoints.length; i++) {
+        var s = m.spawnpoints[i];
+        spawnpoints.push(createVector(s[0], s[1]));
+    }
+    // Misc
+    cols = m.cols;
+    rows = m.rows;
+    waves = m.waves;
+
+    // Resize canvas
+    resizeFit();
 }
 
 // Recalculate pathfinding maps
@@ -107,8 +152,17 @@ function resetMap() {
     spawnpoints = [];
 }
 
+// Changes tile size to fit everything onscreen
+function resizeFit() {
+    var div = document.getElementById('sketch-holder');
+    var ts1 = floor(div.offsetWidth / cols);
+    var ts2 = floor(div.offsetHeight / rows);
+    ts = Math.min(ts1, ts2);
+    resizeCanvas(cols * ts, rows * ts, true);
+}
+
 // Resizes cols, rows, and canvas based on tile size
-function resizeTiles() {
+function resizeMax() {
     var div = document.getElementById('sketch-holder');
     cols = floor(div.offsetWidth / ts);
     rows = floor(div.offsetHeight / ts);
@@ -176,7 +230,7 @@ function setup() {
     var div = document.getElementById('sketch-holder');
     var canvas = createCanvas(div.offsetWidth, div.offsetHeight);
     canvas.parent('sketch-holder');
-    resizeTiles();
+    resizeMax();
     resetMap();
 }
 
@@ -289,7 +343,7 @@ function keyPressed() {
             // Left bracket
             if (ts > 16) {
                 ts -= tileZoom;
-                resizeTiles();
+                resizeMax();
                 resetMap();
             }
             break;
@@ -297,7 +351,7 @@ function keyPressed() {
             // Right bracket
             if (ts < 40) {
                 ts += tileZoom;
-                resizeTiles();
+                resizeMax();
                 resetMap();
             }
             break;
