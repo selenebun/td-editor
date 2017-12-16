@@ -26,18 +26,6 @@ function arrow() {
     line(-length / 2, 0, -back, width / 2);
 }
 
-function drawTile(col, row) {
-    stroke(0, 63);
-    var t = grid[col][row];
-    fill([
-        [255, 255, 255],
-        [108, 122, 137],
-        [191, 85, 236],
-        [25, 181, 254]
-    ][t]);
-    rect(col * ts, row * ts, ts, ts);
-}
-
 // Return map string
 function exportMap() {
     // Convert spawnpoints into a JSON-friendly format
@@ -250,7 +238,15 @@ function draw() {
     // Draw basic tiles
     for (var x = 0; x < cols; x++) {
         for (var y = 0; y < rows; y++) {
-            drawTile(x, y);
+            stroke(0, 63);
+            var t = grid[x][y];
+            fill([
+                [255, 255, 255],
+                [108, 122, 137],
+                [191, 85, 236],
+                [25, 181, 254]
+            ][t]);
+            rect(x * ts, y * ts, ts, ts);
         }
     }
 
