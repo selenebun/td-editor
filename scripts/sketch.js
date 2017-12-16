@@ -78,9 +78,7 @@ function importMap(str) {
         rows = m.rows;
 
         resizeFit();
-    } catch (err) {
-        resetMap(0);
-    }
+    } catch (err) {}
 }
 
 // Recalculate pathfinding maps
