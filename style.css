@@ -68,7 +68,6 @@ aside div p:last-of-type {
 
 #tiles button, #utils button {
     color: #000;
-    font-weight: bold;
     min-width: 100%;
     text-align: center;
     text-shadow: none;
@@ -95,7 +94,8 @@ canvas {
 button, select {
     background-color: #22313F;
     color: #00E640;
-    font-size: 0.9em;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 0.85em;
     text-shadow: 1px 1px 0px #000;
 }
 
@@ -107,7 +107,6 @@ button {
     display: flex;
     flex-direction: column;
     margin-right: 2px;
-    min-width: 190px;
 }
 
 #utils {
