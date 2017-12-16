@@ -10,8 +10,6 @@ var paths;              // direction to travel
 var exit;
 var spawnpoints = [];
 
-var waves;
-
 var selected = 'empty';
 
 
@@ -57,8 +55,7 @@ function exportMap() {
         spawnpoints: spawns,
         // Misc
         cols: cols,
-        rows: rows,
-        waves: waves
+        rows: rows
     });
 }
 
@@ -92,7 +89,6 @@ function importMap(str) {
         // Misc
         cols = m.cols;
         rows = m.rows;
-        waves = m.waves;
 
         resizeFit();
     } catch (err) {
