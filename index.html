@@ -17,7 +17,7 @@
     <main>
       <aside id="tiles">
         <h2>Tiles</h2>
-        <div>
+        <div class="group">
           <p><button class="empty" onclick="selected='empty'">Empty Tile (1)</button></p>
           <p><button class="wall" onclick="selected='wall'">Wall Tile (2)</button></p>
           <p><button class="path" onclick="selected='path'">Path Tile (3)</button></p>
@@ -25,13 +25,13 @@
         </div>
 
         <h2>Special</h2>
-        <div>
+        <div class="group">
           <p><button class="spawn" onclick="selected='spawn'">Spawnpoint (5)</button></p>
           <p><button class="exit" onclick="selected='exit'">Exit Point (6)</button></p>
         </div>
 
         <h2>Paths</h2>
-        <div>
+        <div class="group">
           <p><button class="dir" onclick="selected='none'">No Path (0)</button></p>
           <p><button class="dir" onclick="selected='left'">Left Path (left)</button></p>
           <p><button class="dir" onclick="selected='up'">Up Path (up)</button></p>
@@ -50,19 +50,19 @@
 
         <aside id="utils">
           <h2>Utilities</h2>
-          <div>
+          <div class="group">
             <p><button class="fill" onclick="resetMap(0)">Reset Map (R)</button></p>
             <p><button class="fill" onclick="resetMap(1)">Fill Wall (W)</button></p>
             <p><button class="fill" onclick="resetMap(3)">Fill Tower (T)</button></p>
           </div>
-          <div>
+          <div class="group">
             <p><button class="io" onclick="importMap(prompt('Input map string:'))">Import map (M)</button></p>
             <p><button class="io" onclick="copyToClipboard(exportMap())">Export map (X)</button></p>
           </div>
-          <div>
+          <div class="group">
             <p><button class="dir" onclick="recalculate()">Auto-Pathfind (P)</button></p>
             <p><button class="dir" onclick="paths=buildArray(cols,rows,null)">Clear Pathfinding (Q)</button></p>
-          </div>
+          </div class="group">
           <p><button class="spawn" onclick="spawnpoints=[]">Clear Spawns (S)</button></p>
           <p><button class="zoom" onclick="ts=zoomDefault;resizeMax();resetMap(0)">Reset Zoom (Z)</button></p>
         </aside>
