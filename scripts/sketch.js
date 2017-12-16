@@ -1,6 +1,5 @@
 var cols;
 var rows;
-var tileZoom = 2;
 var ts = 24;            // tile size
 var zoomDefault = ts;
 
@@ -156,6 +155,7 @@ function resizeFit() {
     var ts2 = floor(div.offsetHeight / rows);
     ts = Math.min(ts1, ts2);
     resizeCanvas(cols * ts, rows * ts, true);
+    updateStatus();
 }
 
 // Resizes cols, rows, and canvas based on tile size
@@ -164,6 +164,13 @@ function resizeMax() {
     cols = floor(div.offsetWidth / ts);
     rows = floor(div.offsetHeight / ts);
     resizeCanvas(cols * ts, rows * ts, true);
+    updateStatus();
+}
+
+// Update map status display
+function updateStatus() {
+    document.getElementById('dim').innerHTML = 'Dimensions: ' + cols +
+    'x' + rows;
 }
 
 // User drawing on map
@@ -375,19 +382,29 @@ function keyPressed() {
             break;
         case 219:
             // Left bracket
-            if (ts > 16) {
-                ts -= tileZoom;
-                resizeMax();
-                resetMap(0);
+            if (keyIsDown(SHIFT)) {
+                if (rows > 1) {
+                    rows--;
+                    resizeFit();
+                    resetMap(0);
+                }
+            } else {
+                if (cols > 1) {
+                    cols--;
+                    resizeFit();
+                    resetMap(0);
+                }
             }
             break;
         case 221:
             // Right bracket
-            if (ts < 40) {
-                ts += tileZoom;
-                resizeMax();
-                resetMap(0);
+            if (keyIsDown(SHIFT)) {
+                rows++;
+            } else {
+                cols++;
             }
+            resizeFit();
+            resetMap(0);
             break;
     }
 }
