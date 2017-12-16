@@ -210,14 +210,14 @@ function userDraw() {
             break;
         case 'tower':
             grid[p.x][p.y] = 3;
-            paths[p.x][p.y] = null;
+            paths[p.x][p.y] = 0;
             break;
         case 'up':
             if (g === 0 || g === 2) paths[p.x][p.y] = 2;
             break;
         case 'wall':
             grid[p.x][p.y] = 1;
-            paths[p.x][p.y] = null;
+            paths[p.x][p.y] = 0;
             break;
     }
 }
