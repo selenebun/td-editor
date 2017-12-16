@@ -107,7 +107,7 @@ function recalculate() {
     }
 
     // Generate usable maps
-    var newPaths = buildArray(cols, rows, null);
+    var newPaths = buildArray(cols, rows, 0);
     var keys = Object.keys(cameFrom);
     for (var i = 0; i < keys.length; i++) {
         var key = keys[i];
@@ -120,10 +120,10 @@ function recalculate() {
             var next = stv(val);
             var dir = next.sub(current);
             // Fill tile with direction
-            if (dir.x < 0) newPaths[current.x][current.y] = 'left';
-            if (dir.y < 0) newPaths[current.x][current.y] = 'up';
-            if (dir.x > 0) newPaths[current.x][current.y] = 'right';
-            if (dir.y > 0) newPaths[current.x][current.y] = 'down';
+            if (dir.x < 0) newPaths[current.x][current.y] = 1;
+            if (dir.y < 0) newPaths[current.x][current.y] = 2;
+            if (dir.x > 0) newPaths[current.x][current.y] = 3;
+            if (dir.y > 0) newPaths[current.x][current.y] = 4;
         }
     }
 
@@ -140,7 +140,7 @@ function recalculate() {
 // Clear grid
 function resetMap(tile) {
     grid = buildArray(cols, rows, tile);
-    paths = buildArray(cols, rows, null);
+    paths = buildArray(cols, rows, 0);
 
     exit = null;
     spawnpoints = [];
@@ -178,7 +178,7 @@ function userDraw() {
     var g = grid[p.x][p.y];
     switch (selected) {
         case 'down':
-            if (g === 0 || g === 2) paths[p.x][p.y] = 'down';
+            if (g === 0 || g === 2) paths[p.x][p.y] = 4;
             break;
         case 'empty':
             grid[p.x][p.y] = 0;
@@ -186,19 +186,19 @@ function userDraw() {
         case 'exit':
             exit = createVector(p.x, p.y);
             grid[p.x][p.y] = 0;
-            paths[p.x][p.y] = null;
+            paths[p.x][p.y] = 0;
             break;
         case 'left':
-            if (g === 0 || g === 2) paths[p.x][p.y] = 'left';
+            if (g === 0 || g === 2) paths[p.x][p.y] = 1;
             break;
         case 'none':
-            paths[p.x][p.y] = null;
+            paths[p.x][p.y] = 0;
             break;
         case 'path':
             grid[p.x][p.y] = 2;
             break;
         case 'right':
-            if (g === 0 || g === 2) paths[p.x][p.y] = 'right';
+            if (g === 0 || g === 2) paths[p.x][p.y] = 3;
             break;
         case 'spawn':
             var s = createVector(p.x, p.y);
@@ -213,7 +213,7 @@ function userDraw() {
             paths[p.x][p.y] = null;
             break;
         case 'up':
-            if (g === 0 || g === 2) paths[p.x][p.y] = 'up';
+            if (g === 0 || g === 2) paths[p.x][p.y] = 2;
             break;
         case 'wall':
             grid[p.x][p.y] = 1;
@@ -274,19 +274,13 @@ function draw() {
     for (var x = 0; x < cols; x++) {
         for (var y = 0; y < rows; y++) {
             var d = paths[x][y];
-            if (d) {
-                push();
-                var c = center(x, y);
-                translate(c.x, c.y);
-                rotate({
-                    down: PI * 3 / 2,
-                    left: 0,
-                    right: PI,
-                    up: PI / 2
-                }[d]);
-                arrow();
-                pop();
-            }
+            if (d === 0) continue;
+            push();
+            var c = center(x, y);
+            translate(c.x, c.y);
+            rotate([0, PI / 2, PI, PI * 3 / 2][d - 1]);
+            arrow();
+            pop();
         }
     }
 }
@@ -350,7 +344,7 @@ function keyPressed() {
             break;
         case 81:
             // Q
-            paths = buildArray(cols, rows, null);
+            paths = buildArray(cols, rows, 0);
             break;
         case 82:
             // R
