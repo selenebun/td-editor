@@ -109,6 +109,10 @@ button {
     margin-right: 2px;
 }
 
+#status {
+    font-size: 0.95em;
+}
+
 #utils {
     flex: 1;
 }

@@ -240,6 +240,13 @@ function setup() {
 }
 
 function draw() {
+    // Update mouse coordinates
+    if (mouseInMap()) {
+        var t = gridPos(mouseX, mouseY);
+        var coordText = 'Mouse: (' + t.x + ', ' + t.y + ')';
+        document.getElementById('coord').innerHTML = coordText;
+    }
+    
     // Draw basic tiles
     for (var x = 0; x < cols; x++) {
         for (var y = 0; y < rows; y++) {
