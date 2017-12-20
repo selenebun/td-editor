@@ -3,12 +3,22 @@ var rows;
 var ts = 24;            // tile size
 var zoomDefault = ts;
 
-var grid;               // tile type (0 = empty, 1 = wall, 2 = path, 3 = tower)
+var display;            // graphical display tiles
+var displayDir;         // direction graphical display tiles are facing
+                        // (0 = none, 1 = left, 2 = up, 3 = right, 4 = down)
+var grid;               // (0 = empty, 1 = wall, 2 = path, 3 = tower,
+                        //  4 = enemy-only pathing)
+var metadata;           // tile metadata
 var paths;              // direction to travel
 
 var exit;
 var spawnpoints = [];
 
+var bg = [0, 0, 0];     // background color
+var border = 255;       // fill color for tile borders
+var borderAlpha = 31;   // tile border alpha
+
+var dispMode = false;   // whether or not to show display tiles
 var selected = 'empty';
 
 
@@ -35,11 +45,18 @@ function exportMap() {
     }
     return JSON.stringify({
         // Grids
+        display: display,
+        displayDir: displayDir,
         grid: grid,
+        metadata: metadata,
         paths: paths,
         // Important tiles
         exit: [exit.x, exit.y],
         spawnpoints: spawns,
+        // Colors
+        bg: bg,
+        border: border,
+        borderAlpha: borderAlpha,
         // Misc
         cols: cols,
         rows: rows
@@ -64,7 +81,10 @@ function importMap(str) {
         var m = JSON.parse(str);
 
         // Grids
+        display = m.display;
+        displayDir = m.displayDir;
         grid = m.grid;
+        metadata = m.metadata;
         paths = m.paths;
         // Important tiles
         exit = createVector(m.exit[0], m.exit[1]);
@@ -73,6 +93,10 @@ function importMap(str) {
             var s = m.spawnpoints[i];
             spawnpoints.push(createVector(s[0], s[1]));
         }
+        // Colors
+        bg = m.bg;
+        border = m.border;
+        borderAlpha = m.borderAlpha;
         // Misc
         cols = m.cols;
         rows = m.rows;
@@ -139,7 +163,12 @@ function recalculate() {
 
 // Clear grid
 function resetMap(tile) {
+    dispMode = false;
+    
+    display = buildArray(cols, rows, 'empty');
+    displayDir = buildArray(cols, rows, 0);
     grid = buildArray(cols, rows, tile);
+    metadata = buildArray(cols, rows, null);
     paths = buildArray(cols, rows, 0);
 
     exit = null;
@@ -243,6 +272,8 @@ function setup() {
 }
 
 function draw() {
+    background(dispMode ? bg : 255);
+    
     // Update mouse coordinates
     if (mouseInMap()) {
         var t = gridPos(mouseX, mouseY);
@@ -253,22 +284,32 @@ function draw() {
     // Draw basic tiles
     for (var x = 0; x < cols; x++) {
         for (var y = 0; y < rows; y++) {
-            stroke(0, 63);
-            var t = grid[x][y];
-            fill([
-                [255, 255, 255],
-                [108, 122, 137],
-                [191, 85, 236],
-                [25, 181, 254],
-                [233, 212, 96]
-            ][t]);
-            rect(x * ts, y * ts, ts, ts);
+            if (dispMode) {
+                var t = tiles[display[x][y]];
+                if (typeof t === 'function') {
+                    t(x, y, displayDir[x][y]);
+                } else {
+                    stroke(border, borderAlpha);
+                    t ? fill(t) : noFill();
+                    rect(x * ts, y * ts, ts, ts);
+                }
+            } else {
+                stroke(0, 63);
+                var t = grid[x][y];
+                t === 0 ? noFill() : fill([
+                    [108, 122, 137],
+                    [191, 85, 236],
+                    [25, 181, 254],
+                    [233, 212, 96]
+                ][t - 1]);
+                rect(x * ts, y * ts, ts, ts);
+            }
         }
     }
 
     // Draw spawnpoints
     for (var i = 0; i < spawnpoints.length; i++) {
-        stroke(0);
+        stroke(dispMode ? 255 : 0);
         fill(0, 230, 64);
         var s = spawnpoints[i];
         rect(s.x * ts, s.y * ts, ts, ts);
@@ -276,22 +317,24 @@ function draw() {
 
     // Draw exit
     if (exit) {
-        stroke(0);
+        stroke(dispMode ? 255 : 0);
         fill(207, 0, 15);
         rect(exit.x * ts, exit.y * ts, ts, ts);
     }
 
     // Draw paths
-    for (var x = 0; x < cols; x++) {
-        for (var y = 0; y < rows; y++) {
-            var d = paths[x][y];
-            if (d === 0) continue;
-            push();
-            var c = center(x, y);
-            translate(c.x, c.y);
-            rotate([0, PI / 2, PI, PI * 3 / 2][d - 1]);
-            arrow();
-            pop();
+    if (!dispMode) {
+        for (var x = 0; x < cols; x++) {
+            for (var y = 0; y < rows; y++) {
+                var d = paths[x][y];
+                if (d === 0) continue;
+                push();
+                var c = center(x, y);
+                translate(c.x, c.y);
+                rotate([0, PI / 2, PI, PI * 3 / 2][d - 1]);
+                arrow();
+                pop();
+            }
         }
     }
 }
@@ -301,6 +344,10 @@ function draw() {
 
 function keyPressed() {
     switch (keyCode) {
+        case 32:
+            // Spacebar
+            dispMode = !dispMode;
+            break;
         case 37:
             // Left arrow
             selected = 'left';
@@ -348,6 +395,11 @@ function keyPressed() {
         case 55:
             // 7
             selected = 'exit';
+            break;
+        case 68:
+            // D
+            display = buildArray(cols, rows, 'empty');
+            displayDir = buildArray(cols, rows, 0);
             break;
         case 77:
             // M
