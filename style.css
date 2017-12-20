@@ -54,6 +54,10 @@ aside {
     padding: 14px;
 }
 
+p {
+    margin: 8px 0;
+}
+
 .group p:first-of-type {
     margin-bottom: 0;
 }
@@ -180,4 +184,8 @@ footer #copyright {
 
 .zoom {
     background-color: rgb(82, 179, 217);
+}
+
+.disp {
+    background-color: rgb(191, 85, 236);
 }
