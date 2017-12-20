@@ -183,6 +183,9 @@ function userDraw() {
         case 'empty':
             grid[p.x][p.y] = 0;
             break;
+        case 'enemy':
+            grid[p.x][p.y] = 4;
+            break;
         case 'exit':
             exit = createVector(p.x, p.y);
             grid[p.x][p.y] = 0;
@@ -225,7 +228,7 @@ function userDraw() {
 // Return whether tile is walkable
 function walkable(col, row) {
     // Check if empty or path tile
-    return grid[col][row] === 0 || grid[col][row] === 2;
+    return grid[col][row] !== 1 && grid[col][row] !== 3;
 }
 
 
@@ -256,7 +259,8 @@ function draw() {
                 [255, 255, 255],
                 [108, 122, 137],
                 [191, 85, 236],
-                [25, 181, 254]
+                [25, 181, 254],
+                [233, 212, 96]
             ][t]);
             rect(x * ts, y * ts, ts, ts);
         }
@@ -335,10 +339,14 @@ function keyPressed() {
             break;
         case 53:
             // 5
-            selected = 'spawn';
+            selected = 'enemy';
             break;
         case 54:
             // 6
+            selected = 'spawn';
+            break;
+        case 55:
+            // 7
             selected = 'exit';
             break;
         case 77:

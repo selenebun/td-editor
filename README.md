@@ -6,7 +6,7 @@ Map editor for tower defense game using p5.js that can be played
 * Mouse to place a tile
 * Left and right brackets to change rows (will reset map!)
 * Left and right brackets + shift to change rows (will reset map!)
-* 0-6 and arrow keys to select tiles to place
+* 0-7 and arrow keys to select tiles to place
 * M to import and load map string (will reset map!)
 * P to automatically pathfind
 * Q to erase all pathfinding
