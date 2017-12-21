@@ -44,7 +44,7 @@ function exportMap() {
         var s = spawnpoints[i];
         spawns.push([s.x, s.y]);
     }
-    return JSON.stringify({
+    return LZString.compressToBase64(JSON.stringify({
         // Grids
         display: display,
         displayDir: displayDir,
@@ -61,7 +61,7 @@ function exportMap() {
         // Misc
         cols: cols,
         rows: rows
-    });
+    }));
 }
 
 // Return walkability map
@@ -79,7 +79,7 @@ function getWalkMap() {
 // Load a map from a map string
 function importMap(str) {
     try {
-        var m = JSON.parse(str);
+        var m = JSON.parse(LZString.decompressFromBase64(str));
 
         // Grids
         display = m.display;
