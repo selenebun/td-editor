@@ -209,8 +209,7 @@ function updateDivs() {
 
 // Update map status display
 function updateStatus() {
-    document.getElementById('dim').innerHTML = 'Dimensions: ' + cols +
-    'x' + rows;
+    document.getElementById('dim').innerHTML = 'Dim: ' + cols + 'x' + rows;
 }
 
 // User drawing on map
