@@ -131,6 +131,15 @@ footer #copyright {
 }
 
 
+#tiles {
+    width: 180px;
+}
+
+#deco-picker {
+    display: none;
+}
+
+
 /* Grid tile types */
 
 .empty {

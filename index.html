@@ -17,28 +17,34 @@
 
     <main>
       <aside id="tiles">
-        <h2>Tiles</h2>
-        <div class="group">
-          <p><button class="empty" onclick="selected='empty'">Empty Tile (1)</button></p>
-          <p><button class="wall" onclick="selected='wall'">Wall Tile (2)</button></p>
-          <p><button class="path" onclick="selected='path'">Path Tile (3)</button></p>
-          <p><button class="tower" onclick="selected='tower'">Tower Tile (4)</button></p>
-          <p><button class="enemy" onclick="selected='enemy'">Enemy-Only Tile (5)</button></p>
+        <div id="tile-picker">
+          <h2>Tiles</h2>
+          <div class="group">
+            <p><button class="empty" onclick="selected='empty'">Empty Tile (1)</button></p>
+            <p><button class="wall" onclick="selected='wall'">Wall Tile (2)</button></p>
+            <p><button class="path" onclick="selected='path'">Path Tile (3)</button></p>
+            <p><button class="tower" onclick="selected='tower'">Tower Tile (4)</button></p>
+            <p><button class="enemy" onclick="selected='enemy'">Enemy-Only Tile (5)</button></p>
+          </div>
+  
+          <h2>Special</h2>
+          <div class="group">
+            <p><button class="spawn" onclick="selected='spawn'">Spawnpoint (6)</button></p>
+            <p><button class="exit" onclick="selected='exit'">Exit Point (7)</button></p>
+          </div>
+  
+          <h2>Paths</h2>
+          <div class="group">
+            <p><button class="dir" onclick="selected='none'">No Path (0)</button></p>
+            <p><button class="dir" onclick="selected='left'">Left Path (left)</button></p>
+            <p><button class="dir" onclick="selected='up'">Up Path (up)</button></p>
+            <p><button class="dir" onclick="selected='right'">Right Path (right)</button></p>
+            <p><button class="dir" onclick="selected='down'">Down Path (down)</button></p>
+          </div>
         </div>
-
-        <h2>Special</h2>
-        <div class="group">
-          <p><button class="spawn" onclick="selected='spawn'">Spawnpoint (6)</button></p>
-          <p><button class="exit" onclick="selected='exit'">Exit Point (7)</button></p>
-        </div>
-
-        <h2>Paths</h2>
-        <div class="group">
-          <p><button class="dir" onclick="selected='none'">No Path (0)</button></p>
-          <p><button class="dir" onclick="selected='left'">Left Path (left)</button></p>
-          <p><button class="dir" onclick="selected='up'">Up Path (up)</button></p>
-          <p><button class="dir" onclick="selected='right'">Right Path (right)</button></p>
-          <p><button class="dir" onclick="selected='down'">Down Path (down)</button></p>
+        <div id="deco-picker">
+          <h2>Decorative</h2>
+          <div class="group"></div>
         </div>
       </aside>
 
@@ -67,7 +73,7 @@
             <p><button class="dir" onclick="paths=buildArray(cols,rows,null)">Clear Pathfinding (Q)</button></p>
           </div class="group">
           <div class="group">
-            <p><button class="disp" onclick="dispMode=!dispMode">Display Mode (Space)</button></p>
+            <p><button class="disp" onclick="dispMode=!dispMode;updateDivs()">Display Mode (Space)</button></p>
             <p><button class="disp" onclick="display=buildArray(cols,rows,'empty');displayDir=buildArray(cols,rows,0)">Clear Display (D)</button></p>
           </div>
           <p><button class="spawn" onclick="spawnpoints=[]">Clear Spawns (S)</button></p>

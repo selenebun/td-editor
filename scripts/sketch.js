@@ -194,6 +194,19 @@ function resizeMax() {
     updateStatus();
 }
 
+// Update tile- and decoration-selection divs
+function updateDivs() {
+    var t = document.getElementById('tile-picker').style;
+    var d = document.getElementById('deco-picker').style;
+    if (dispMode) {
+        t.display = 'none';
+        d.display = 'block';
+    } else {
+        t.display = 'block';
+        d.display = 'none';
+    }
+}
+
 // Update map status display
 function updateStatus() {
     document.getElementById('dim').innerHTML = 'Dimensions: ' + cols +
@@ -347,6 +360,7 @@ function keyPressed() {
         case 32:
             // Spacebar
             dispMode = !dispMode;
+            updateDivs();
             break;
         case 37:
             // Left arrow
