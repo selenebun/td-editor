@@ -18,8 +18,9 @@ var bg = [0, 0, 0];     // background color
 var border = 255;       // fill color for tile borders
 var borderAlpha = 31;   // tile border alpha
 
+var deco = 'empty';     // decoration to draw
 var dispMode = false;   // whether or not to show display tiles
-var selected = 'empty';
+var tile = 'empty';     // tile to draw
 
 
 // Misc functions
@@ -162,12 +163,12 @@ function recalculate() {
 }
 
 // Clear grid
-function resetMap(tile) {
+function resetMap(t) {
     dispMode = false;
     
     display = buildArray(cols, rows, 'empty');
     displayDir = buildArray(cols, rows, 0);
-    grid = buildArray(cols, rows, tile);
+    grid = buildArray(cols, rows, t);
     metadata = buildArray(cols, rows, null);
     paths = buildArray(cols, rows, 0);
 
@@ -194,6 +195,15 @@ function resizeMax() {
     updateStatus();
 }
 
+// Store selected tile in appropriate location
+function selectTile(t, d) {
+    if (typeof d === 'undefined') {
+        dispMode ? deco = t : tile = t;
+    } else {
+        dispMode ? deco = d : tile = t;
+    }
+}
+
 // Update tile- and decoration-selection divs
 function updateDivs() {
     var t = document.getElementById('tile-picker').style;
@@ -217,52 +227,90 @@ function userDraw() {
     if (!mouseInMap()) return;
     var p = gridPos(mouseX, mouseY);
     var g = grid[p.x][p.y];
-    switch (selected) {
-        case 'down':
-            if (g === 0 || g === 2) paths[p.x][p.y] = 4;
-            break;
-        case 'empty':
-            grid[p.x][p.y] = 0;
-            break;
-        case 'enemy':
-            grid[p.x][p.y] = 4;
-            break;
-        case 'exit':
-            exit = createVector(p.x, p.y);
-            grid[p.x][p.y] = 0;
-            paths[p.x][p.y] = 0;
-            break;
-        case 'left':
-            if (g === 0 || g === 2) paths[p.x][p.y] = 1;
-            break;
-        case 'none':
-            paths[p.x][p.y] = 0;
-            break;
-        case 'path':
-            grid[p.x][p.y] = 2;
-            break;
-        case 'right':
-            if (g === 0 || g === 2) paths[p.x][p.y] = 3;
-            break;
-        case 'spawn':
-            var s = createVector(p.x, p.y);
-            for (var i = 0; i < spawnpoints.length; i++) {
-                if (s.equals(spawnpoints[i])) return;
-            }
-            spawnpoints.push(s);
-            if (!walkable(p.x, p.y)) grid[p.x][p.y] = 0;
-            break;
-        case 'tower':
-            grid[p.x][p.y] = 3;
-            paths[p.x][p.y] = 0;
-            break;
-        case 'up':
-            if (g === 0 || g === 2) paths[p.x][p.y] = 2;
-            break;
-        case 'wall':
-            grid[p.x][p.y] = 1;
-            paths[p.x][p.y] = 0;
-            break;
+    if (dispMode) {
+        switch (deco) {
+            case 'down':
+                displayDir[p.x][p.y] = 4;
+                break;
+            case 'empty':
+                display[p.x][p.y] = 'empty';
+                break;
+            case 'left':
+                displayDir[p.x][p.y] = 1;
+                break;
+            case 'lCorner':
+                display[p.x][p.y] = 'lCorner';
+                break;
+            case 'none':
+                displayDir[p.x][p.y] = 0;
+                break;
+            case 'rCorner':
+                display[p.x][p.y] = 'rCorner';
+                break;
+            case 'right':
+                displayDir[p.x][p.y] = 3;
+                break;
+            case 'road':
+                display[p.x][p.y] = 'road';
+                break;
+            case 'tower':
+                display[p.x][p.y] = 'tower';
+                break;
+            case 'up':
+                displayDir[p.x][p.y] = 2;
+                break;
+            case 'wall':
+                display[p.x][p.y] = 'wall';
+                break;
+        }
+    } else {
+        switch (tile) {
+            case 'down':
+                if (g === 0 || g === 2) paths[p.x][p.y] = 4;
+                break;
+            case 'empty':
+                grid[p.x][p.y] = 0;
+                break;
+            case 'enemy':
+                grid[p.x][p.y] = 4;
+                break;
+            case 'exit':
+                exit = createVector(p.x, p.y);
+                grid[p.x][p.y] = 0;
+                paths[p.x][p.y] = 0;
+                break;
+            case 'left':
+                if (g === 0 || g === 2) paths[p.x][p.y] = 1;
+                break;
+            case 'none':
+                paths[p.x][p.y] = 0;
+                break;
+            case 'path':
+                grid[p.x][p.y] = 2;
+                break;
+            case 'right':
+                if (g === 0 || g === 2) paths[p.x][p.y] = 3;
+                break;
+            case 'spawn':
+                var s = createVector(p.x, p.y);
+                for (var i = 0; i < spawnpoints.length; i++) {
+                    if (s.equals(spawnpoints[i])) return;
+                }
+                spawnpoints.push(s);
+                if (!walkable(p.x, p.y)) grid[p.x][p.y] = 0;
+                break;
+            case 'tower':
+                grid[p.x][p.y] = 3;
+                paths[p.x][p.y] = 0;
+                break;
+            case 'up':
+                if (g === 0 || g === 2) paths[p.x][p.y] = 2;
+                break;
+            case 'wall':
+                grid[p.x][p.y] = 1;
+                paths[p.x][p.y] = 0;
+                break;
+        }
     }
 }
 
@@ -363,51 +411,51 @@ function keyPressed() {
             break;
         case 37:
             // Left arrow
-            selected = 'left';
+            selectTile('left');
             break;
         case 38:
             // Up arrow
-            selected = 'up';
+            selectTile('up');
             break;
         case 39:
             // Right arrow
-            selected = 'right';
+            selectTile('right');
             break;
         case 40:
             // Down arrow
-            selected = 'down';
+            selectTile('down');
             break;
         case 48:
             // 0
-            selected = 'none';
+            selectTile('none');
             break;
         case 49:
             // 1
-            selected = 'empty';
+            selectTile('empty');
             break;
         case 50:
             // 2
-            selected = 'wall';
+            selectTile('wall');
             break;
         case 51:
             // 3
-            selected = 'path';
+            selectTile('path', 'tower');
             break;
         case 52:
             // 4
-            selected = 'tower';
+            selectTile('tower', 'road');
             break;
         case 53:
             // 5
-            selected = 'enemy';
+            selectTile('enemy', 'lCorner');
             break;
         case 54:
             // 6
-            selected = 'spawn';
+            selectTile('spawn', 'rCorner');
             break;
         case 55:
             // 7
-            selected = 'exit';
+            tile = 'exit';
             break;
         case 68:
             // D

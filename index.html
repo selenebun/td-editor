@@ -20,31 +20,51 @@
         <div id="tile-picker">
           <h2>Tiles</h2>
           <div class="group">
-            <p><button class="empty" onclick="selected='empty'">Empty Tile (1)</button></p>
-            <p><button class="wall" onclick="selected='wall'">Wall Tile (2)</button></p>
-            <p><button class="path" onclick="selected='path'">Path Tile (3)</button></p>
-            <p><button class="tower" onclick="selected='tower'">Tower Tile (4)</button></p>
-            <p><button class="enemy" onclick="selected='enemy'">Enemy-Only Tile (5)</button></p>
+            <p><button class="empty" onclick="tile='empty'">Empty Tile (1)</button></p>
+            <p><button class="wall" onclick="tile='wall'">Wall Tile (2)</button></p>
+            <p><button class="path" onclick="tile='path'">Path Tile (3)</button></p>
+            <p><button class="tower" onclick="tile='tower'">Tower Tile (4)</button></p>
+            <p><button class="enemy" onclick="tile='enemy'">Enemy-Only Tile (5)</button></p>
           </div>
   
           <h2>Special</h2>
           <div class="group">
-            <p><button class="spawn" onclick="selected='spawn'">Spawnpoint (6)</button></p>
-            <p><button class="exit" onclick="selected='exit'">Exit Point (7)</button></p>
+            <p><button class="spawn" onclick="tile='spawn'">Spawnpoint (6)</button></p>
+            <p><button class="exit" onclick="tile='exit'">Exit Point (7)</button></p>
           </div>
   
           <h2>Paths</h2>
           <div class="group">
-            <p><button class="dir" onclick="selected='none'">No Path (0)</button></p>
-            <p><button class="dir" onclick="selected='left'">Left Path (left)</button></p>
-            <p><button class="dir" onclick="selected='up'">Up Path (up)</button></p>
-            <p><button class="dir" onclick="selected='right'">Right Path (right)</button></p>
-            <p><button class="dir" onclick="selected='down'">Down Path (down)</button></p>
+            <p><button class="dir" onclick="tile='none'">No Path (0)</button></p>
+            <p><button class="dir" onclick="tile='left'">Left Path (left)</button></p>
+            <p><button class="dir" onclick="tile='up'">Up Path (up)</button></p>
+            <p><button class="dir" onclick="tile='right'">Right Path (right)</button></p>
+            <p><button class="dir" onclick="tile='down'">Down Path (down)</button></p>
           </div>
         </div>
         <div id="deco-picker">
           <h2>Decorative</h2>
-          <div class="group"></div>
+          <div class="group">
+            <p><button class="empty" onclick="deco='empty'">Empty Tile (1)</button></p>
+            <p><button class="wall" onclick="deco='wall'">Wall Tile (2)</button></p>
+            <p><button class="tower" onclick="deco='tower'">Tower Tile (3)</button></p>
+          </div>
+
+          <h2>Roads</h2>
+          <div class="group">
+            <p><button class="road" onclick="deco='road'">Road Tile (4)</button></p>
+            <p><button class="road" onclick="deco='lCorner'">Left Corner (5)</button></p>
+            <p><button class="road" onclick="deco='rCorner'">Right Corner (6)</button></p>
+          </div>
+
+          <h2>Direction</h2>
+          <div class="group">
+            <p><button class="dir" onclick="deco='none'">None (0)</button></p>
+            <p><button class="dir" onclick="deco='left'">Left (left)</button></p>
+            <p><button class="dir" onclick="deco='up'">Up (up)</button></p>
+            <p><button class="dir" onclick="deco='right'">Right (right)</button></p>
+            <p><button class="dir" onclick="deco='down'">Down (down)</button></p>
+          </div>
         </div>
       </aside>
 
