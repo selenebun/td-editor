@@ -235,6 +235,9 @@ function userDraw() {
             case 'empty':
                 display[p.x][p.y] = 'empty';
                 break;
+            case 'grass':
+                display[p.x][p.y] = 'grass';
+                break;
             case 'left':
                 displayDir[p.x][p.y] = 1;
                 break;
@@ -252,6 +255,9 @@ function userDraw() {
                 break;
             case 'road':
                 display[p.x][p.y] = 'road';
+                break;
+            case 'sidewalk':
+                display[p.x][p.y] = 'sidewalk';
                 break;
             case 'tower':
                 display[p.x][p.y] = 'tower';
@@ -443,19 +449,23 @@ function keyPressed() {
             break;
         case 52:
             // 4
-            selectTile('tower', 'road');
+            selectTile('tower', 'grass');
             break;
         case 53:
             // 5
-            selectTile('enemy', 'lCorner');
+            selectTile('enemy', 'road');
             break;
         case 54:
             // 6
-            selectTile('spawn', 'rCorner');
+            selectTile('spawn', 'lCorner');
             break;
         case 55:
             // 7
-            tile = 'exit';
+            selectTile('exit', 'rCorner');
+            break;
+        case 56:
+            // 8
+            if (dispMode) deco = 'sidewalk';
             break;
         case 68:
             // D

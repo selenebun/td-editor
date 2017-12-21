@@ -204,3 +204,11 @@ footer #copyright {
 .road {
     background-color: rgb(210, 77, 87);
 }
+
+.sidewalk {
+    background-color: rgb(149, 165, 166);
+}
+
+.grass {
+    background-color: rgb(30, 130, 76);
+}
