@@ -486,6 +486,19 @@ function keyPressed() {
             // T
             resetMap(3);
             break;
+        case 85:
+            // U
+            display = replaceArray(
+                grid, [0, 1, 2, 3, 4], ['empty', 'wall', 'empty', 'tower', 'empty']
+            );
+            displayDir = buildArray(cols, rows, 0);
+            // Colors
+            bg = [0, 0, 0];
+            border = 255;
+            borderAlpha = 31;
+            // Misc
+            metadata = buildArray(cols, rows, null);
+            break;
         case 87:
             // W
             resetMap(1);
