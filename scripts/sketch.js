@@ -180,6 +180,7 @@ function recalculate() {
 // Clear grid
 function resetMap(t) {
     dispMode = false;
+    updateDivs();
     
     display = buildArray(cols, rows, 'empty');
     displayDir = buildArray(cols, rows, 0);
@@ -503,6 +504,10 @@ function keyPressed() {
             // F
             if (['none', 'left', 'up', 'right', 'down'].includes(deco)) return;
             display = buildArray(cols, rows, deco);
+            break;
+        case 76:
+            // L
+            displayDir = copyArray(paths);
             break;
         case 77:
             // M

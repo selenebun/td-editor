@@ -20,6 +20,18 @@ function center(col, row) {
     return createVector(col*ts + ts/2, row*ts + ts/2);
 }
 
+// Copy 2d array
+function copyArray(arr) {
+    var newArr = [];
+    for (var x = 0; x < arr.length; x++) {
+        newArr[x] = [];
+        for (var y = 0; y < arr[x].length; y++) {
+            newArr[x][y] = arr[x][y];
+        }
+    }
+    return newArr;
+}
+
 // Copy text to clipboard
 function copyToClipboard(str) {
     var textArea = document.createElement('textarea');

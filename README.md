@@ -11,6 +11,7 @@ Map editor for tower defense game using p5.js that can be played
 * C to clear graphical display tiles
 * D to toggle automatically updating display layer as you draw
 * F to fill map with currently selected decorative tile
+* L to copy paths to display layer
 * M to import and load map string (will reset map!)
 * P to automatically pathfind
 * Q to erase all pathfinding
