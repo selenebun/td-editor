@@ -3,6 +3,10 @@
     src: url('fonts/SourceCodePro-Regular.ttf');
 }
 
+::-webkit-scrollbar {
+    display: none;
+}
+
 html, body {
     margin: 0;
     padding: 0;
@@ -51,11 +55,12 @@ main {
 }
 
 aside {
+    overflow-y: scroll;
     padding: 14px;
 }
 
 p {
-    margin: 2px 0;
+    margin: 8px 0;
 }
 
 .group p:first-of-type {
