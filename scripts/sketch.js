@@ -439,8 +439,12 @@ function keyPressed() {
             break;
         case 70:
             // F
-            if (['none', 'left', 'up', 'right', 'down'].includes(deco)) return;
-            display = buildArray(cols, rows, deco);
+            var d = ['none', 'left', 'up', 'right', 'down'].indexOf(deco);
+            if (d === -1) {
+                display = buildArray(cols, rows, deco);
+            } else {
+                displayDir = buildArray(cols, rows, d);
+            }
             break;
         case 76:
             // L
