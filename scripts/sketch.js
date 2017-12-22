@@ -18,6 +18,7 @@ var bg = [0, 0, 0];     // background color
 var border = 255;       // fill color for tile borders
 var borderAlpha = 31;   // tile border alpha
 
+var autogen = true;     // automatically generate display layer
 var deco = 'empty';     // decoration to draw
 var dispMode = false;   // whether or not to show display tiles
 var tile = 'empty';     // tile to draw
@@ -64,8 +65,8 @@ function exportMap() {
     }));
 }
 
-// Generate display layer automatically
-function autogenDisplay() {
+// Generate display layer
+function genDisplay() {
     display = replaceArray(
         grid, [0, 1, 2, 3, 4], ['empty', 'wall', 'empty', 'tower', 'empty']
     );
@@ -290,9 +291,11 @@ function userDraw() {
                 break;
             case 'empty':
                 grid[p.x][p.y] = 0;
+                if (autogen) display[p.x][p.y] = 'empty';
                 break;
             case 'enemy':
                 grid[p.x][p.y] = 4;
+                if (autogen) display[p.x][p.y] = 'empty';
                 break;
             case 'exit':
                 exit = createVector(p.x, p.y);
@@ -307,6 +310,7 @@ function userDraw() {
                 break;
             case 'path':
                 grid[p.x][p.y] = 2;
+                if (autogen) display[p.x][p.y] = 'empty';
                 break;
             case 'right':
                 if (g === 0 || g === 2) paths[p.x][p.y] = 3;
@@ -322,6 +326,7 @@ function userDraw() {
             case 'tower':
                 grid[p.x][p.y] = 3;
                 paths[p.x][p.y] = 0;
+                if (autogen) display[p.x][p.y] = 'tower';
                 break;
             case 'up':
                 if (g === 0 || g === 2) paths[p.x][p.y] = 2;
@@ -329,6 +334,7 @@ function userDraw() {
             case 'wall':
                 grid[p.x][p.y] = 1;
                 paths[p.x][p.y] = 0;
+                if (autogen) display[p.x][p.y] = 'wall';
                 break;
         }
     }
@@ -488,6 +494,10 @@ function keyPressed() {
             break;
         case 68:
             // D
+            autogen = !autogen;
+            var state = autogen ? 'Off' : 'On';
+            var a = document.getElementById('autogen');
+            a.innerHTML = 'Turn Autogen ' + state + ' (D)';
             break;
         case 70:
             // F
@@ -520,7 +530,7 @@ function keyPressed() {
             break;
         case 85:
             // U
-            autogenDisplay();
+            genDisplay();
             break;
         case 87:
             // W
