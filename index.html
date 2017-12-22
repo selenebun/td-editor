@@ -97,7 +97,8 @@
           </div class="group">
           <div class="group">
             <p><button class="disp" onclick="dispMode=!dispMode;updateDivs()">Display Mode (Space)</button></p>
-            <p><button class="disp" onclick="display=buildArray(cols,rows,'empty');displayDir=buildArray(cols,rows,0)">Clear Display (D)</button></p>
+            <p><button class="disp" onclick="autogenDisplay()">Auto-Gen Display (U)</button></p>
+            <p><button class="disp" onclick="display=buildArray(cols,rows,'empty');displayDir=buildArray(cols,rows,0)">Clear Display (C)</button></p>
           </div>
           <p><button class="spawn" onclick="spawnpoints=[]">Clear Spawns (S)</button></p>
           <p><button class="zoom" onclick="ts=zoomDefault;resizeMax();resetMap(0)">Reset Zoom (Z)</button></p>

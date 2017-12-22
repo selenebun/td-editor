@@ -64,6 +64,20 @@ function exportMap() {
     }));
 }
 
+// Generate display layer automatically
+function autogenDisplay() {
+    display = replaceArray(
+        grid, [0, 1, 2, 3, 4], ['empty', 'wall', 'empty', 'tower', 'empty']
+    );
+    displayDir = buildArray(cols, rows, 0);
+    // Colors
+    bg = [0, 0, 0];
+    border = 255;
+    borderAlpha = 31;
+    // Misc
+    metadata = buildArray(cols, rows, null);
+}
+
 // Return walkability map
 function getWalkMap() {
     var walkMap = [];
@@ -467,10 +481,13 @@ function keyPressed() {
             // 8
             if (dispMode) deco = 'sidewalk';
             break;
-        case 68:
-            // D
+        case 67:
+            // C
             display = buildArray(cols, rows, 'empty');
             displayDir = buildArray(cols, rows, 0);
+            break;
+        case 68:
+            // D
             break;
         case 70:
             // F
@@ -503,16 +520,7 @@ function keyPressed() {
             break;
         case 85:
             // U
-            display = replaceArray(
-                grid, [0, 1, 2, 3, 4], ['empty', 'wall', 'empty', 'tower', 'empty']
-            );
-            displayDir = buildArray(cols, rows, 0);
-            // Colors
-            bg = [0, 0, 0];
-            border = 255;
-            borderAlpha = 31;
-            // Misc
-            metadata = buildArray(cols, rows, null);
+            autogenDisplay();
             break;
         case 87:
             // W
