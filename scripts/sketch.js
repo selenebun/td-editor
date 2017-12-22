@@ -472,6 +472,11 @@ function keyPressed() {
             display = buildArray(cols, rows, 'empty');
             displayDir = buildArray(cols, rows, 0);
             break;
+        case 70:
+            // F
+            if (['none', 'left', 'up', 'right', 'down'].includes(deco)) return;
+            display = buildArray(cols, rows, deco);
+            break;
         case 77:
             // M
             importMap(prompt('Input map string:'));
