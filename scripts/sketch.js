@@ -244,99 +244,36 @@ function userDraw() {
     var p = gridPos(mouseX, mouseY);
     var g = grid[p.x][p.y];
     if (dispMode) {
-        switch (deco) {
-            case 'down':
-                displayDir[p.x][p.y] = 4;
-                break;
-            case 'empty':
-                display[p.x][p.y] = 'empty';
-                break;
-            case 'grass':
-                display[p.x][p.y] = 'grass';
-                break;
-            case 'left':
-                displayDir[p.x][p.y] = 1;
-                break;
-            case 'lCorner':
-                display[p.x][p.y] = 'lCorner';
-                break;
-            case 'none':
-                displayDir[p.x][p.y] = 0;
-                break;
-            case 'rCorner':
-                display[p.x][p.y] = 'rCorner';
-                break;
-            case 'right':
-                displayDir[p.x][p.y] = 3;
-                break;
-            case 'road':
-                display[p.x][p.y] = 'road';
-                break;
-            case 'sidewalk':
-                display[p.x][p.y] = 'sidewalk';
-                break;
-            case 'tower':
-                display[p.x][p.y] = 'tower';
-                break;
-            case 'up':
-                displayDir[p.x][p.y] = 2;
-                break;
-            case 'wall':
-                display[p.x][p.y] = 'wall';
-                break;
+        var d = ['none', 'left', 'up', 'right', 'down'].indexOf(deco);
+        if (d !== -1) {
+            displayDir[p.x][p.y] = d;
+            return;
         }
+        display[p.x][p.y] = tiles.hasOwnProperty(deco) ? deco : 'empty';
     } else {
-        switch (tile) {
-            case 'down':
-                if (g === 0 || g === 2) paths[p.x][p.y] = 4;
-                break;
-            case 'empty':
-                grid[p.x][p.y] = 0;
-                if (autogen) display[p.x][p.y] = 'empty';
-                break;
-            case 'enemy':
-                grid[p.x][p.y] = 4;
-                if (autogen) display[p.x][p.y] = 'empty';
-                break;
-            case 'exit':
-                exit = createVector(p.x, p.y);
-                grid[p.x][p.y] = 0;
-                paths[p.x][p.y] = 0;
-                break;
-            case 'left':
-                if (g === 0 || g === 2) paths[p.x][p.y] = 1;
-                break;
-            case 'none':
-                paths[p.x][p.y] = 0;
-                break;
-            case 'path':
-                grid[p.x][p.y] = 2;
-                if (autogen) display[p.x][p.y] = 'empty';
-                break;
-            case 'right':
-                if (g === 0 || g === 2) paths[p.x][p.y] = 3;
-                break;
-            case 'spawn':
-                var s = createVector(p.x, p.y);
-                for (var i = 0; i < spawnpoints.length; i++) {
-                    if (s.equals(spawnpoints[i])) return;
-                }
-                spawnpoints.push(s);
-                if (!walkable(p.x, p.y)) grid[p.x][p.y] = 0;
-                break;
-            case 'tower':
-                grid[p.x][p.y] = 3;
-                paths[p.x][p.y] = 0;
-                if (autogen) display[p.x][p.y] = 'tower';
-                break;
-            case 'up':
-                if (g === 0 || g === 2) paths[p.x][p.y] = 2;
-                break;
-            case 'wall':
-                grid[p.x][p.y] = 1;
-                paths[p.x][p.y] = 0;
-                if (autogen) display[p.x][p.y] = 'wall';
-                break;
+        var d = ['none', 'left', 'up', 'right', 'down'].indexOf(tile);
+        if (d !== -1) {
+            paths[p.x][p.y] = g !== 1 && g !== 3 ? d : 0;
+            return;
+        } else if (tile === 'exit') {
+            exit = createVector(p.x, p.y);
+            grid[p.x][p.y] = 0;
+            paths[p.x][p.y] = 0;
+        } else if (tile === 'spawn') {
+            var s = createVector(p.x, p.y);
+            for (var i = 0; i < spawnpoints.length; i++) {
+                if (s.equals(spawnpoints[i])) return;
+            }
+            spawnpoints.push(s);
+            if (!walkable(p.x, p.y)) grid[p.x][p.y] = 0;
+        } else {
+            var t = ['empty', 'wall', 'path', 'tower', 'enemy'].indexOf(tile);
+            if (t === -1) return;
+            grid[p.x][p.y] = t;
+            if (t === 1 || t === 3) paths[p.x][p.y] = 0;
+            if (autogen) display[p.x][p.y] = [
+                'empty', 'wall', 'empty', 'tower', 'empty'
+            ][t];
         }
     }
 }
