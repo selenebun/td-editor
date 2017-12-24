@@ -182,7 +182,8 @@ function resetMap(t) {
     dispMode = false;
     updateDivs();
     
-    display = buildArray(cols, rows, 'empty');
+    var d = ['empty', 'wall', 'empty', 'tower', 'empty'][t]
+    display = buildArray(cols, rows, d);
     displayDir = buildArray(cols, rows, 0);
     grid = buildArray(cols, rows, t);
     metadata = buildArray(cols, rows, null);
