@@ -258,12 +258,18 @@ function userDraw() {
             return;
         } else if (tile === 'exit') {
             exit = createVector(p.x, p.y);
+            for (var i = 0; i < spawnpoints.length; i++) {
+                if (exit.equals(spawnpoints[i])) {
+                    spawnpoints.splice(i, 1);
+                    break;
+                }
+            }
             grid[p.x][p.y] = 0;
             paths[p.x][p.y] = 0;
         } else if (tile === 'spawn') {
             var s = createVector(p.x, p.y);
             for (var i = 0; i < spawnpoints.length; i++) {
-                if (s.equals(spawnpoints[i])) return;
+                if (s.equals(spawnpoints[i]) || s.equals(exit)) return;
             }
             spawnpoints.push(s);
             if (!walkable(p.x, p.y)) grid[p.x][p.y] = 0;
