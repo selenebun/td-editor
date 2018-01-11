@@ -276,6 +276,12 @@ function userDraw() {
         } else {
             var t = ['empty', 'wall', 'path', 'tower', 'enemy'].indexOf(tile);
             if (t === -1) return;
+            if (t === 1 || t === 3) {
+                if (p.equals(exit)) return;
+                for (var i = 0; i < spawnpoints.length; i++) {
+                    if (p.equals(spawnpooints[i])) return;
+                }
+            }
             grid[p.x][p.y] = t;
             if (t === 1 || t === 3) paths[p.x][p.y] = 0;
             if (autogen) display[p.x][p.y] = [
