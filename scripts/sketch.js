@@ -363,6 +363,12 @@ function draw() {
     if (!dispMode) {
         for (var x = 0; x < cols; x++) {
             for (var y = 0; y < rows; y++) {
+                if (!walkable(x, y) || (
+                    exit && x === exit.x && y === exit.y
+                )) {
+                    paths[x][y] = 0;
+                    continue;
+                }
                 var d = paths[x][y];
                 if (d === 0) continue;
                 push();
@@ -452,11 +458,24 @@ function keyPressed() {
             break;
         case 70:
             // F
-            var d = ['none', 'left', 'up', 'right', 'down'].indexOf(deco);
-            if (d === -1) {
-                display = buildArray(cols, rows, deco);
+            var sel = dispMode ? deco : tile;
+            var d = ['none', 'left', 'up', 'right', 'down'].indexOf(sel);
+            if (dispMode) {
+                if (d === -1) {
+                    display = buildArray(cols, rows, sel);
+                } else {
+                    displayDir = buildArray(cols, rows, d);
+                }
             } else {
-                displayDir = buildArray(cols, rows, d);
+                if (d === -1) {
+                    var t = [
+                        'empty', 'wall', 'path', 'tower', 'enemy'
+                    ].indexOf(sel);
+                    if (t === -1) return;
+                    grid = buildArray(cols, rows, t);
+                } else {
+                    paths = buildArray(cols, rows, d);
+                }
             }
             break;
         case 76:
@@ -483,17 +502,9 @@ function keyPressed() {
             // S
             spawnpoints = [];
             break;
-        case 84:
-            // T
-            resetMap(3);
-            break;
         case 85:
             // U
             genDisplay();
-            break;
-        case 87:
-            // W
-            resetMap(1);
             break;
         case 88:
             // X
