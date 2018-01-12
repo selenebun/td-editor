@@ -279,7 +279,7 @@ function userDraw() {
             if (t === 1 || t === 3) {
                 if (p.equals(exit)) return;
                 for (var i = 0; i < spawnpoints.length; i++) {
-                    if (p.equals(spawnpooints[i])) return;
+                    if (p.equals(spawnpoints[i])) return;
                 }
             }
             grid[p.x][p.y] = t;
