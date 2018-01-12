@@ -291,6 +291,29 @@ function userDraw() {
     }
 }
 
+// Filling tiles
+function userFill() {
+    var sel = dispMode ? deco : tile;
+    var d = ['none', 'left', 'up', 'right', 'down'].indexOf(sel);
+    if (dispMode) {
+        if (d === -1) {
+            display = buildArray(cols, rows, sel);
+        } else {
+            displayDir = buildArray(cols, rows, d);
+        }
+    } else {
+        if (d === -1) {
+            var t = [
+                'empty', 'wall', 'path', 'tower', 'enemy'
+            ].indexOf(sel);
+            if (t === -1) return;
+            grid = buildArray(cols, rows, t);
+        } else {
+            paths = buildArray(cols, rows, d);
+        }
+    }
+}
+
 // Return whether tile is walkable
 function walkable(col, row) {
     // Check if empty or path tile
@@ -458,25 +481,7 @@ function keyPressed() {
             break;
         case 70:
             // F
-            var sel = dispMode ? deco : tile;
-            var d = ['none', 'left', 'up', 'right', 'down'].indexOf(sel);
-            if (dispMode) {
-                if (d === -1) {
-                    display = buildArray(cols, rows, sel);
-                } else {
-                    displayDir = buildArray(cols, rows, d);
-                }
-            } else {
-                if (d === -1) {
-                    var t = [
-                        'empty', 'wall', 'path', 'tower', 'enemy'
-                    ].indexOf(sel);
-                    if (t === -1) return;
-                    grid = buildArray(cols, rows, t);
-                } else {
-                    paths = buildArray(cols, rows, d);
-                }
-            }
+            userFill();
             break;
         case 76:
             // L
