@@ -1,6 +1,6 @@
 # td-editor
 Map editor for tower defense game using p5.js that can be played
-[here](https://xithiox.github.io/td-editor/).
+[here](https://rsaihe.github.io/td-editor/).
 
 ### Controls:
 * Left and right brackets to change columns (will reset map!)
